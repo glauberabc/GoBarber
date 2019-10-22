@@ -49,7 +49,7 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+      return res.status(400).json({ error: 'Validation fails.' });
     }
 
     const { email, oldPassword } = req.body;
@@ -65,17 +65,21 @@ class UserController {
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'Password does not match' });
+      return res.status(401).json({ error: 'Password does not match.' });
     }
 
-    const { id, name, provider } = await user.update(req.body);
+    try {
+      const { id, name, provider } = await user.update(req.body);
 
-    return res.json({
-      id,
-      name,
-      email,
-      provider,
-    });
+      return res.json({
+        id,
+        name,
+        email,
+        provider,
+      });
+    } catch (error) {
+      return res.json(400).json({ error: 'Update user erro.' });
+    }
   }
 }
 
