@@ -99,7 +99,7 @@ class AppointmentController {
         .json({ Error: 'Appointment date is not available' });
     }
 
-    const appoinrment = await Appointment.create({
+    const appointment = await Appointment.create({
       user_id: req.userId,
       provider_id,
       date: hourStart,
@@ -118,10 +118,10 @@ class AppointmentController {
       user: provider_id,
     });
 
-    return res.json(appoinrment);
+    return res.json(appointment);
   }
 
-  async delete(req, res) {
+  async destroy(req, res) {
     const appointment = await Appointment.findByPk(req.params.id, {
       include: [
         {
